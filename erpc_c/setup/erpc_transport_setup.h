@@ -486,6 +486,46 @@ void erpc_transport_tcp_deinit(erpc_transport_t transport);
 
 //@}
 
+//! @name TCP transport setup Zehyr RTOS
+//@{
+
+/*!
+ * @brief Create and open TCP transport
+ *
+ * For server, create a TCP listen socket and wait for connections
+ * For client, connect to server
+ *
+ * @param[in] host hostname/IP address to listen on or server to connect to
+ * @param[in] port port to listen on or server to connect to
+ * @param[in] isServer true if we are a server
+ *
+ * @return Return NULL or erpc_transport_t instance pointer.
+ */
+erpc_transport_t erpc_transport_tcp_zephyr_init(const char *host, uint16_t port, bool isServer);
+
+/*!
+ * @brief Close TCP connection
+ *
+ * For server, stop listening and close all sockets. Note that the server mode
+ * uses and accept() which is a not-recommended blocking method so we can't exit
+ * until a connection attempts is made. This is a deadlock but assuming that TCP
+ * code is supposed to be for test, I assume it's acceptable. Otherwise a non-blocking
+ * socket or select() shoudl be used
+ * For client, close server connection
+ *
+ * @param[in] transport Transport which was returned from init function.
+ */
+void erpc_transport_tcp_zephyr_close(erpc_transport_t transport);
+
+/*!
+ * @brief Deinitialize TCP transport.
+ *
+ * @param[in] transport Transport which was initialized with init function.
+ */
+void erpc_transport_tcp_zephyr_deinit(erpc_transport_t transport);
+
+//@}
+
 //! @name CMSIS UART transport setup
 //@{
 

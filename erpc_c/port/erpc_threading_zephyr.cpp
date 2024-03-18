@@ -46,6 +46,7 @@ void Thread::start(void *arg)
     erpc_assert((m_stack != NULL) && ("Set stack address" != NULL));
     m_thread_id = k_thread_create(&m_thread, m_stack, m_stackSize, threadEntryPointStub, this, NULL, NULL, m_priority,
                                   0, K_NO_WAIT);
+	k_thread_name_set (m_thread_id, m_name);						  
 }
 
 bool Thread::operator==(Thread &o)
